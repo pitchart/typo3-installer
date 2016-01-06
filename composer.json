@@ -1,0 +1,11 @@
+{
+    "name": "pitchart/typo3-installer",
+    "description": "TYPO3 Installer",
+    "authors": [
+        {
+            "name": "Julien VITTE",
+            "email": "vitte.julien@gmail.com"
+        }
+    ],
+    "require": {}
+}
