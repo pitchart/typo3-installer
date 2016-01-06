@@ -1,0 +1,6 @@
+services:
+    downloader:
+        class: Pitchart\Typo3Installer\Service\Downloader
+        arguments: ['get.typo3.org']
+    extractor:
+        class: Pitchart\Typo3Installer\Service\TarExtractor
