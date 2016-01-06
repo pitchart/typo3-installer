@@ -2,7 +2,11 @@
 
 namespace Pitchart\Typo3Installer\Service;
 
-
+/**
+ * Class TarExtractor
+ * @package Pitchart\Typo3Installer\Service
+ * @author Julien VITTE <vitte.julien@gmail.com>
+ */
 class TarExtractor {
 
     public function extract($archive, $remove = false) {

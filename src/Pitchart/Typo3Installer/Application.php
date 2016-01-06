@@ -9,6 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class Application
+ * @package Pitchart\Typo3Installer
+ * @author Julien VITTE <vitte.julien@gmail.com>
+ */
 class Application extends ConsoleApplication implements ContainerAwareInterface {
 
     protected $container;
@@ -32,6 +37,10 @@ class Application extends ConsoleApplication implements ContainerAwareInterface 
         $this->injectContainer();
         parent::doRun($input, $output);
     }
+
+    /**
+     * Inject Service container to all commands
+     */
     private function injectContainer()
     {
         foreach ($this->all() as $command) {

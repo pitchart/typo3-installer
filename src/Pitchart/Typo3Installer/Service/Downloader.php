@@ -2,7 +2,11 @@
 
 namespace Pitchart\Typo3Installer\Service;
 
-
+/**
+ * Class Downloader
+ * @package Pitchart\Typo3Installer\Service
+ * @author Julien VITTE <vitte.julien@gmail.com>
+ */
 class Downloader {
 
     /**
@@ -17,10 +21,19 @@ class Downloader {
         $this->url = $url;
     }
 
+    /**
+     * @param string $version
+     * @param string $target
+     * @return string
+     */
     public function download($version, $target) {
         return $this->execute($version, $target);
     }
 
+    /**
+     * @param $version
+     * @return string
+     */
     public function getUrl($version) {
         return sprintf('%s/%s', $this->url, $version);
     }

@@ -9,6 +9,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Install TYPO3-CMS using get.typo3.org
+ *
+ * @package Pitchart\Typo3Installer\Command
+ * @author Julien VITTE <vitte.julien@gmail.com>
+ */
 class GetCommand extends Command implements ContainerAwareInterface {
 
     /**
@@ -16,12 +22,17 @@ class GetCommand extends Command implements ContainerAwareInterface {
      */
     protected $container;
 
+    /**
+     * @param ContainerInterface|null $container
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-
+    /**
+     * Command configuration
+     */
     protected function configure()
     {
         $this
@@ -32,6 +43,12 @@ class GetCommand extends Command implements ContainerAwareInterface {
         ;
     }
 
+    /**
+     * Command execution
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Downloading TYPO3 '.$input->getArgument('version'));
@@ -51,7 +68,7 @@ class GetCommand extends Command implements ContainerAwareInterface {
 # wget http://get.typo3.org/$1 -O $1.tgz;
 # tar -zxvf $1.tgz;
 mv typo3_src-$1/ $1/;
-rm $1.tgz;
+# rm $1.tgz;
 chmod +x $1/typo3/cli_dispatch.phpsh;
  */
     }
