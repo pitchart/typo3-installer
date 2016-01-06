@@ -59,9 +59,10 @@ class GetCommand extends Command implements ContainerAwareInterface {
         if (file_exists($target)) {
             $output->writeln('Extract '.pathinfo($target, PATHINFO_FILENAME));
             $extractor = $this->container->get('extractor');
-            $extracted = $extractor->extract($target);
+            $extracted = $extractor->extract($target, true);
+            $output->writeln('Extracted in '.$extracted);
             if ($extracted !== false) {
-
+                exec(sprintf('chmod +x %s/typo3/cli_dispatch.phpsh', $extracted));
             }
         }
 /*
