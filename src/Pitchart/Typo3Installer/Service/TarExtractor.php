@@ -10,7 +10,7 @@ namespace Pitchart\Typo3Installer\Service;
 class TarExtractor {
 
     public function extract($archive, $remove = false) {
-        exec(sprintf('tar -zxvf %s 2> /dev/null', $archive));
+        exec(sprintf('tar -zxvf %s -C %s 2> /dev/null', $archive, pathinfo($archive, PATHINFO_DIRNAME)));
 
         $archiveInformations = pathinfo($archive);
         $extracted = $archiveInformations['dirname'].'/'.$archiveInformations['filename'];
