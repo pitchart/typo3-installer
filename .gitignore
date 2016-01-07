@@ -2,3 +2,4 @@
 /bin/tmp/
 composer.phar
 .travis/phar-private.pem
+box.phar
