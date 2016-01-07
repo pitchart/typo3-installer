@@ -53,7 +53,8 @@ class GetCommand extends Command implements ContainerAwareInterface {
     {
         $output->writeln('Downloading TYPO3 '.$input->getArgument('version'));
         $downloader = $this->container->get('downloader');
-        $target = realpath($input->getArgument('target')).'/'.$input->getArgument('version').'.tgz';
+        $typo3Directory = realpath($input->getArgument('target')).'/';
+        $target = $typo3Directory.$input->getArgument('version').'.tgz';
         $downloader->download($input->getArgument('version'), $target);
 
         if (file_exists($target)) {
@@ -62,6 +63,11 @@ class GetCommand extends Command implements ContainerAwareInterface {
             $extracted = $extractor->extract($target, true);
             $output->writeln('Extracted in '.$extracted);
             if ($extracted !== false) {
+                // Create the symlinks in your Document Root
+                exec(sprintf('cd %s && ln -s typo3_src-%s typo3_src', $typo3Directory, $input->getArgument('version')));
+                exec(sprintf('cd %s && ln -s typo3_src/index.php', $typo3Directory));
+                exec(sprintf('cd %s && ln -s typo3_src/typo3', $typo3Directory));
+                // FIX filemode for cli_dispatcher command
                 exec(sprintf('chmod +x %s/typo3/cli_dispatch.phpsh', $extracted));
             }
         }
