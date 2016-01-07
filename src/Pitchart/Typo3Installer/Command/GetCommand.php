@@ -5,6 +5,7 @@ namespace Pitchart\Typo3Installer\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,6 +41,7 @@ class GetCommand extends Command implements ContainerAwareInterface {
             ->setDescription('Download a new TYPO3')
             ->addArgument('version', InputArgument::OPTIONAL, 'TYPO3 version', 'current')
             ->addArgument('target', InputArgument::OPTIONAL, 'Target path', './')
+            ->addOption('disable-apache', null, InputOption::VALUE_NONE, 'Do not use apache htaccess configuration')
         ;
     }
 
@@ -69,6 +71,9 @@ class GetCommand extends Command implements ContainerAwareInterface {
                 exec(sprintf('cd %s && ln -s typo3_src/typo3', $typo3Directory));
                 // FIX filemode for cli_dispatcher command
                 exec(sprintf('chmod +x %s/typo3/cli_dispatch.phpsh', $extracted));
+                if (!$input->getOption('disable-apache')) {
+                    exec(sprintf('cp %s/_.htaccess %s/.htaccess', $extracted, $typo3Directory));
+                }
             }
         }
 /*
