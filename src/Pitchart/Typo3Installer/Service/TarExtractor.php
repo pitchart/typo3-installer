@@ -13,7 +13,7 @@ class TarExtractor {
         exec(sprintf('tar -zxvf %s -C %s 2> /dev/null', $archive, pathinfo($archive, PATHINFO_DIRNAME)));
 
         $archiveInformations = pathinfo($archive);
-        $extracted = $archiveInformations['dirname'].'/'.$archiveInformations['filename'];
+        $extracted = $archiveInformations['dirname'].'/typo3_src-'.$archiveInformations['filename'];
 
         if (file_exists($extracted) && is_dir($extracted)) {
             if ($remove) {
