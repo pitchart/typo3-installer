@@ -6,10 +6,15 @@ require __DIR__.'/../vendor/autoload.php';
 use Pitchart\Typo3Installer\Command;
 use Pitchart\Typo3Installer\Application;
 
-use Lcobucci\DependencyInjection\Compiler\ContainerAware;
-use Lcobucci\DependencyInjection\ContainerBuilder;
-use Lcobucci\DependencyInjection\Generators\Yaml as YamlGenerator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+$container = new ContainerBuilder();
+$loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config/'));
+$loader->load('services.yml');
+
+/*
 $container = (new ContainerBuilder())
    ->setGenerator(new YamlGenerator()) // Changes the generator
    ->addFile(__DIR__ . '/../config/services.yml') // Appends a file to create the container
@@ -18,6 +23,7 @@ $container = (new ContainerBuilder())
    ->setParameter('app.basedir', __DIR__) // Configures a dynamic parameter
    ->addPass(new ContainerAware()) // Appends a new compiler pass
    ->getContainer(); // Retrieves the container =)
+*/
 
 $application = (new Application('Typo3Installer', '0.1-dev'))->setContainer($container);
 $application->add(new Command\GetCommand());

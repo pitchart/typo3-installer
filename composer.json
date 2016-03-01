@@ -12,7 +12,6 @@
         "symfony/console": "^3.0",
         "symfony/dependency-injection": "^3.0",
         "symfony/config": "^3.0",
-        "lcobucci/di-builder": "^4.1",
         "symfony/yaml": "^3.0"
     },
     "autoload": {

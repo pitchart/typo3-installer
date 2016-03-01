@@ -4,66 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a2149b28eb4b9dd5cf7c06ca5831d0ce",
-    "content-hash": "0538ff8eb27197f2357b580872773305",
+    "hash": "686928fa7e8c02a604e5dd02b2b7f336",
+    "content-hash": "5f3861f79bd6dbe13820d7a3ecaa35f7",
     "packages": [
-        {
-            "name": "lcobucci/di-builder",
-            "version": "4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/di-builder.git",
-                "reference": "225b1a0741f5ec220fed2386453c5394ac4dd0fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/di-builder/zipball/225b1a0741f5ec220fed2386453c5394ac4dd0fd",
-                "reference": "225b1a0741f5ec220fed2386453c5394ac4dd0fd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5",
-                "symfony/config": "~3.0",
-                "symfony/dependency-injection": "~3.0",
-                "symfony/expression-language": "~3.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "~1.6",
-                "phpunit/phpunit": "~4.8",
-                "squizlabs/php_codesniffer": "*",
-                "symfony/proxy-manager-bridge": "~3.0"
-            },
-            "suggest": {
-                "symfony/proxy-manager-bridge": "Allows the creation of lazy services"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lcobucci\\DependencyInjection\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Luís Otávio Cobucci Oblonczyk",
-                    "email": "lcobucci@gmail.com"
-                }
-            ],
-            "description": "Dependency Injection Builder for PHP 5.3+ applications",
-            "homepage": "https://github.com/lcobucci/di-builder",
-            "keywords": [
-                "dependency-injection"
-            ],
-            "time": "2015-12-31 09:41:22"
-        },
         {
             "name": "symfony/config",
             "version": "v3.0.1",
