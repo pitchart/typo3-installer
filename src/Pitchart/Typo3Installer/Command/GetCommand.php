@@ -42,6 +42,8 @@ class GetCommand extends Command implements ContainerAwareInterface {
             ->addArgument('version', InputArgument::OPTIONAL, 'TYPO3 version', 'current')
             ->addArgument('target', InputArgument::OPTIONAL, 'Target path', './')
             ->addOption('disable-apache', null, InputOption::VALUE_NONE, 'Do not use apache htaccess configuration')
+            ->addOption('no-symlink', null, InputOption::VALUE_NONE, 'Do not create symlinks')
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Rename the typo3_src folder')
         ;
     }
 
@@ -66,13 +68,19 @@ class GetCommand extends Command implements ContainerAwareInterface {
             $output->writeln('Extracted in '.$extracted);
             if ($extracted !== false) {
                 // Create the symlinks in your Document Root
-                exec(sprintf('cd %s && ln -s typo3_src-%s typo3_src', $typo3Directory, $input->getArgument('version')));
-                exec(sprintf('cd %s && ln -s typo3_src/index.php', $typo3Directory));
-                exec(sprintf('cd %s && ln -s typo3_src/typo3', $typo3Directory));
+                if (!$input->getOption('no-symlink')) {
+                    exec(sprintf('cd %s && ln -s typo3_src-%s typo3_src', $typo3Directory, $input->getArgument('version')));
+                    exec(sprintf('cd %s && ln -s typo3_src/index.php', $typo3Directory));
+                    exec(sprintf('cd %s && ln -s typo3_src/typo3', $typo3Directory));
+                }
                 // FIX filemode for cli_dispatcher command
                 exec(sprintf('chmod +x %s/typo3/cli_dispatch.phpsh', $extracted));
+
                 if (!$input->getOption('disable-apache')) {
                     exec(sprintf('cp %s/_.htaccess %s/.htaccess', $extracted, $typo3Directory));
+                }
+                if ($input->getOption('name')) {
+                    exec(sprintf('mv %1$s/typo3_src-%2$s %1$s/%3$s', $typo3Directory, $input->getArgument('version'), $input->getOption('name')));
                 }
             }
         }
