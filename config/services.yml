@@ -4,3 +4,5 @@ services:
         arguments: ['get.typo3.org']
     extractor:
         class: Pitchart\Typo3Installer\Service\TarExtractor
+    permissionsFixer:
+        class: Pitchart\Typo3Installer\Service\PermissionsFixer
