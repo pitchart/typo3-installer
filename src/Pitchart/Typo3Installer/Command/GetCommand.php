@@ -39,7 +39,7 @@ class GetCommand extends Command implements ContainerAwareInterface {
         $this
             ->setName('typo3:get')
             ->setDescription('Download a new TYPO3')
-            ->addArgument('version', InputArgument::OPTIONAL, 'TYPO3 version', 'current')
+            ->addArgument('version', InputArgument::REQUIRED, 'TYPO3 version')
             ->addArgument('target', InputArgument::OPTIONAL, 'Target path', './')
             ->addOption('no-htaccess', null, InputOption::VALUE_NONE, 'Do not copy apache htaccess configuration')
             ->addOption('no-symlink', null, InputOption::VALUE_NONE, 'Do not create symlinks')
