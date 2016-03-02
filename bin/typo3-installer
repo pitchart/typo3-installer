@@ -27,4 +27,5 @@ $container = (new ContainerBuilder())
 
 $application = (new Application('Typo3Installer', '0.1-dev'))->setContainer($container);
 $application->add(new Command\GetCommand());
+$application->add(new Command\FixPermissionsCommand());
 $application->run();
