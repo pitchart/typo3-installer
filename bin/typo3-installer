@@ -14,17 +14,6 @@ $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config/'));
 $loader->load('services.yml');
 
-/*
-$container = (new ContainerBuilder())
-   ->setGenerator(new YamlGenerator()) // Changes the generator
-   ->addFile(__DIR__ . '/../config/services.yml') // Appends a file to create the container
-   ->useDevelopmentMode() // Enables the development mode (production is the default)
-   ->setDumpDir(__DIR__ . '/tmp') // Changes the dump directory
-   ->setParameter('app.basedir', __DIR__) // Configures a dynamic parameter
-   ->addPass(new ContainerAware()) // Appends a new compiler pass
-   ->getContainer(); // Retrieves the container =)
-*/
-
 $application = (new Application('Typo3Installer', '0.1-dev'))->setContainer($container);
 $application->add(new Command\GetCommand());
 $application->add(new Command\FixPermissionsCommand());
