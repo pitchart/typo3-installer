@@ -2,6 +2,10 @@
 
 namespace Pitchart\Typo3Installer\Command;
 
+use AdamBrett\ShellWrapper\Runners\Exec;
+use AdamBrett\ShellWrapper\Command\Builder as CommandBuilder;
+use Pitchart\Typo3Installer\Model\Installation;
+use Pitchart\Typo3Installer\Processor\InstallationProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,10 +60,18 @@ class GetCommand extends Command implements ContainerAwareInterface {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Downloading TYPO3 '.$input->getArgument('version'));
+
         $downloader = $this->container->get('downloader');
         $typo3Directory = realpath($input->getArgument('target')).'/';
         $target = $typo3Directory.$input->getArgument('version').'.tgz';
         $downloader->download($input->getArgument('version'), $target);
+
+        $installation = new Installation($input->getArgument('version'), $typo3Directory, $input->getOption('name'), !$input->getOption('no-htaccess'), !$input->getOption('no-symlink'));
+
+        if ($installation->isReady()) {
+            $execution = new Exec();
+            $installationProcessor = new InstallationProcessor();
+        }
 
         if (file_exists($target)) {
             $output->writeln('Extract '.pathinfo($target, PATHINFO_FILENAME));
@@ -78,7 +90,7 @@ class GetCommand extends Command implements ContainerAwareInterface {
 
                 // Create the symlinks in your Document Root
                 if (!$input->getOption('no-symlink')) {
-                    exec(sprintf('cd %s && ln -s typo3_src-%s typo3_src', pathinfo($extracted, PATHINFO_BASENAME), $input->getArgument('version')));
+                    exec(sprintf('cd %s && ln -s %s typo3_src', pathinfo($extracted, PATHINFO_BASENAME), $input->getArgument('version')));
                     exec(sprintf('cd %s && ln -s typo3_src/index.php', $typo3Directory));
                     exec(sprintf('cd %s && ln -s typo3_src/typo3', $typo3Directory));
                 }

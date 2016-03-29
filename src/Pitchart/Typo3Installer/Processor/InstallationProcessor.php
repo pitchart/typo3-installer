@@ -9,6 +9,7 @@
 namespace Pitchart\Typo3Installer\Processor;
 
 
+use AdamBrett\ShellWrapper\Runners\Runner;
 use Pitchart\Typo3Installer\Model\Installation;
 use Pitchart\Typo3Installer\Service\Process;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -23,18 +24,23 @@ class InstallationProcessor implements ContainerAwareInterface {
      */
     private $processes;
 
-    public function __construct(\ArrayIterator $processes = null) {
+    /**
+     * @var Runner
+     */
+    private $runner;
+
+    public function __construct(Runner $runner, \ArrayIterator $processes = null) {
         if ($processes === null) {
             $processes = new \ArrayIterator();
         }
         $this->processes = $processes;
-
+        $this->runner = $runner;
     }
 
     public function process(Installation $installation) {
         /** @var Process $process */
         foreach ($this->processes as $process) {
-            $process->execute($installation);
+            $process->execute($this->runner, $installation);
         }
     }
 

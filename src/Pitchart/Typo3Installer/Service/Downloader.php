@@ -1,18 +1,23 @@
 <?php
 
 namespace Pitchart\Typo3Installer\Service;
+use AdamBrett\ShellWrapper\Runners\Runner;
+use AdamBrett\ShellWrapper\Command\Builder as CommandBuilder;
+use Pitchart\Typo3Installer\Model\InstallationInterface;
 
 /**
  * Class Downloader
  * @package Pitchart\Typo3Installer\Service
  * @author Julien VITTE <vitte.julien@gmail.com>
  */
-class Downloader {
+class Downloader implements Process{
 
     /**
      * @var string
      */
     protected $url;
+
+    protected $commandName = 'wget';
 
     /**
      * @param string $url
@@ -27,7 +32,12 @@ class Downloader {
      * @return string
      */
     public function download($version, $target) {
-        return $this->execute($version, $target);
+        $logs = [];
+        exec(sprintf('wget %1$s --content-disposition -O %2$s 2> /dev/null', $this->getUrl($version), $target), $logs);
+        if (@file_exists($target.'/'.$version.'.tgz')) {
+            return $target.'/'.$version.'.tgz';
+        }
+        return '';
     }
 
     /**
@@ -43,12 +53,12 @@ class Downloader {
      * @param string $target
      * @return string
      */
-    protected function execute($version, $target) {
-        $logs = [];
-        exec(sprintf('wget %1$s --content-disposition -O %2$s 2> /dev/null', $this->getUrl($version), $target), $logs);
-        if (@file_exists($target.'/'.$version.'.tgz')) {
-            return $target.'/'.$version.'.tgz';
-        }
-        return '';
+    public function execute(Runner $runner, InstallationInterface $installation) {
+        $command = (new CommandBuilder($this->commandName))
+            ->addParam($this->getUrl($installation->getVersion()))
+            ->addArgument('content-disposition')
+            ->addFlag('O', $installation->getTarget())
+        ;
+        $runner->run($command);
     }
 }
